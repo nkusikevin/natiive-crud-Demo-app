@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchNotes = createAsyncThunk("users/fetchUsers", async () => {
-	const response = await fetch("http://localhost:8000/notes");
-	return (await response.json()).data;
+export const fetchNotes = createAsyncThunk("users/fetchNote", async () => {
+	const response = await axios.get("http://localhost:8000/notes");
+	return response;
 });
 //createNote
 export const createNote = createAsyncThunk("notes/createNote", async (note) => {
 	const response = await axios.post("http://localhost:8000/notes", note);
-	return (await response.json()).data;
+	return response;
 });
 
 //updateNote
@@ -54,7 +54,7 @@ export const noteSlice = createSlice({
 			state.loading = true;
 		});
 		builder.addCase(createNote.fulfilled, (state, action) => {
-			// state.notes_list.push(action.payload);
+			state.notes_list = [...state.notes_list, action.payload];
 			state.loading = false;
 		});
 		builder.addCase(createNote.rejected, (state) => {
