@@ -4,12 +4,12 @@ import axios from "axios";
 
 export const fetchNotes = createAsyncThunk("users/fetchNote", async () => {
 	const response = await axios.get("http://localhost:8000/notes");
-	return response;
+	return response.data;
 });
 //createNote
 export const createNote = createAsyncThunk("notes/createNote", async (note) => {
 	const response = await axios.post("http://localhost:8000/notes", note);
-	return response;
+	return response.data;
 });
 
 //updateNote

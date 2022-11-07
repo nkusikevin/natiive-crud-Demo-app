@@ -9,17 +9,24 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Note from "../components/Note";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchNotes } from "../redux/noteSlice";
 
 export default function Home() {
 	// const [notes, setNotes] = useState([]);
+	let notes = [];
+	const dispatch = useDispatch();
 	const [text, setText] = useState("");
-	const notes = [
-		{ id: 1, title: "Note 1", content: "Content 1", color: "blue" },
-		{ id: 2, title: "Note 2", content: "Content 2", color: "green" },
-		{ id: 3, title: "Note 3", content: "Content 3", color: "#FDA3B8" },
-		{ id: 4, title: "Note 4", content: "Content 4", color: "yellow" },
-		{ id: 5, title: "Note 5", content: "Content 5", color: "red" },
-	];
+	const not = useSelector((state) => state.notes.notes_list);
+
+	useEffect(() => {
+		dispatch(fetchNotes());
+	}, []);
+
+	if (not.length > 0) {
+		notes = not;
+	}
+
 	return (
 		<View style={styles.container}>
 			<View
