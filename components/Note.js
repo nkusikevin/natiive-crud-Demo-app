@@ -5,7 +5,7 @@ const Note = ({ note, navigation }) => {
 	return (
 		<TouchableOpacity
 			style={styles.note}
-			onPress={() => navigation.navigate("DetailNote", note)}>
+			onPress={() => navigation.navigate("DetailNote", { id: note._id })}>
 			<View
 				style={{
 					flex: 1,

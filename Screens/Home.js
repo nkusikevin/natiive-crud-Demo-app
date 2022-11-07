@@ -6,13 +6,14 @@ import {
 	Pressable,
 	TextInput,
 	FlatList,
+	TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Note from "../components/Note";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNotes } from "../redux/noteSlice";
 
-export default function Home() {
+export default function Home({ navigation }) {
 	// const [notes, setNotes] = useState([]);
 	let notes = [];
 	const dispatch = useDispatch();
@@ -38,11 +39,15 @@ export default function Home() {
 				<Text style={{ fontSize: 24, color: "#000", fontFamily: "Semibold" }}>
 					Notes
 				</Text>
-				<Pressable onPress={() => navigation.navigate("AddNote")}>
-					<View style={styles.iconContainer}>
+				<TouchableOpacity>
+					<View
+						style={styles.iconContainer}
+						onPress={() => {
+							navigation.navigate("AddNote");
+						}}>
 						<Icon name='add' size={28} color={"#fff"} />
 					</View>
-				</Pressable>
+				</TouchableOpacity>
 			</View>
 			<View style={styles.inputContainer}>
 				<Icon name='search-outline' size={25} color={"grey"} />
