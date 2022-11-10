@@ -17,7 +17,13 @@ export default function App() {
 	return (
 		<Provider store={store}>
 			<NavigationContainer>
-				<Stack.Navigator>
+				<Stack.Navigator
+					screenOptions={{
+						headerStyle: { elevation: 0 },
+						contentStyle: {
+							backgroundColor: "#6ED4C8",
+						},
+					}}>
 					<Stack.Screen
 						name='Home'
 						component={Home}

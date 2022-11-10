@@ -5,10 +5,7 @@ import {
 	View,
 	TouchableOpacity,
 	TextInput,
-	Pressable,
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
-import HeaderBtn from "react-native-vector-icons/Ionicons";
 import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
 import { createNote } from "../redux/noteSlice";
@@ -38,11 +35,13 @@ const AddNote = ({ navigation }) => {
 		return error;
 	};
 
-	useEffect(async () => {
+	useEffect(() => {
+		async function createData(title, content) {
+			await dispatch(createNote({ title, content }));
+		}
+
 		if (Object.keys(error).length === 0 && textValidated) {
-			console.log("uploaded");
-			console.log(title, content);
-			dispatch(createNote({ title, content }));
+			createData(title, content);
 			Toast.show({
 				type: "success",
 				text1: "Your note has been created 👋",
@@ -51,20 +50,19 @@ const AddNote = ({ navigation }) => {
 				navigation.goBack();
 			}, 2000);
 		}
+		return () => {
+			clearTimeout();
+			console.log("add This will be logged on unmount");
+		};
 	}, [error, textValidated]);
+
 	return (
 		<View style={styles.container}>
 			<View style={{ flexDirection: "row", alignItems: "center" }}>
-				<Pressable onPress={() => navigation.navigate("Home")}>
-					<View style={styles.iconContainer}>
-						<HeaderBtn name='arrow-back' size={24} color={"#fff"} />
-					</View>
-				</Pressable>
-
 				<Text
 					style={{
 						textAlign: "center",
-						fontFamily: "Poppins",
+
 						fontSize: 18,
 						flex: 1,
 					}}>
@@ -181,7 +179,6 @@ const styles = StyleSheet.create({
 	},
 	error: {
 		fontSize: 12,
-		fontFamily: "Poppins",
 		color: "red",
 	},
 });

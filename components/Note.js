@@ -11,13 +11,12 @@ const Note = ({ note, navigation }) => {
 					flex: 1,
 					paddingHorizontal: "10",
 					paddingVertical: "5",
-					height: "100%",
+					justifyContent: "center",
 				}}>
 				<Text
 					style={{
 						color: "black",
 						fontSize: 16,
-						fontFamily: "Semibold",
 						fontWeight: "bold",
 					}}
 					numberOfLines={1}>
@@ -33,13 +32,24 @@ export default Note;
 const styles = StyleSheet.create({
 	note: {
 		backgroundColor: "#a79ea0b3",
-		margin: 5,
-		height: 110,
+		position: "relative",
+		marginTop: 10,
 		paddingHorizontal: 4,
-		paddingVertical: 2,
+		paddingVertical: 10,
 		elevation: 6,
 		borderRadius: 5,
 		flex: 1,
 		overflow: "hidden",
+		height: 100,
+		"&::before": {
+			content: `''`,
+			position: "absolute",
+			left: "-50px",
+			top: "50px",
+			width: "0",
+			height: "0",
+			border: "50px solid green",
+			borderTopColor: "red",
+		},
 	},
 });

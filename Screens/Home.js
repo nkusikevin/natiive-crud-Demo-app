@@ -3,8 +3,6 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	Pressable,
-	TextInput,
 	FlatList,
 	TouchableOpacity,
 } from "react-native";
@@ -14,20 +12,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchNotes } from "../redux/noteSlice";
 
 export default function Home({ navigation }) {
-	// const [notes, setNotes] = useState([]);
 	let notes = [];
 	const dispatch = useDispatch();
-	const [text, setText] = useState("");
+
 	const not = useSelector((state) => state.notes.notes_list);
 
 	useEffect(() => {
-		dispatch(fetchNotes());
-	}, []);
+		async function fetchData() {
+			await dispatch(fetchNotes());
+		}
+		fetchData();
+		//clean up function
+		// return () => {
+		// 	console.log("home This will be logged on unmount");
+		// };
+	}, [not]);
 
 	if (not.length > 0) {
 		notes = not;
 	}
-
 	return (
 		<View style={styles.container}>
 			<View
@@ -35,28 +38,17 @@ export default function Home({ navigation }) {
 					flexDirection: "row",
 					justifyContent: "space-between",
 					alignItems: "center",
+					marginBottom: 20,
 				}}>
-				<Text style={{ fontSize: 24, color: "#000", fontFamily: "Semibold" }}>
-					Notes
-				</Text>
-				<TouchableOpacity>
-					<View
-						style={styles.iconContainer}
-						onPress={() => {
-							navigation.navigate("AddNote");
-						}}>
+				<Text style={{ fontSize: 24, color: "#000" }}>Notes</Text>
+				<TouchableOpacity
+					onPress={() => {
+						navigation.navigate("AddNote");
+					}}>
+					<View style={styles.iconContainer}>
 						<Icon name='add' size={28} color={"#fff"} />
 					</View>
 				</TouchableOpacity>
-			</View>
-			<View style={styles.inputContainer}>
-				<Icon name='search-outline' size={25} color={"grey"} />
-				<TextInput
-					value={text}
-					onChangeText={(e) => setText(e)}
-					style={styles.input}
-					placeholder='Search Your Notes'
-				/>
 			</View>
 			<FlatList
 				showsVerticalScrollIndicator={false}
@@ -71,7 +63,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		paddingTop: 60,
-		backgroundColor: "#fff",
+		backgroundColor: "#98ab6c87",
 		paddingHorizontal: 20,
 	},
 	iconContainer: {
